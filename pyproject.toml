@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "extraction-fb"
+version = "0.1.0"
+description = "Architecture ETL ultra-robuste pour extraction d'annonces foncières Facebook (Ouagadougou)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Cheick-Yasine" }]
+dependencies = [
+    "playwright>=1.47.0",
+    "openai>=1.40.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.4.0",
+    "psycopg[binary]>=3.2.0",
+    "openpyxl>=3.1.5",
+    "python-dotenv>=1.0.1",
+    "tenacity>=8.5.0",
+    "structlog>=24.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.6.0",
+    "mypy>=1.11.0",
+]
+
+[project.scripts]
+extraction-fb = "extraction_fb.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/extraction_fb"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["extraction_fb"]
